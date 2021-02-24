@@ -1,0 +1,26 @@
+Możliwe operacje matematyczne
+
+W przypadku, gdy danymi wejściowymi są:
+
+1. dwie liczby rzeczywiste:
+   - dodawanie,
+   - odejmowanie,
+   - mnożenie,
+   - dzielenie,
+   - potęgowanie (zakres akceptowanego wykładnika zawiera się w przedziale <0, 128>),
+   - pierwiastkowanie (stopień 2).
+
+2. liczby rzeczywistej i wektora:
+   - mnożenie przez liczbę.
+
+3. dwa wektory (aby operacja była możliwa oba wektory muszą mieć tyle samo składowych):
+   - dodawanie,
+   - odejmowanie.
+
+4.  dwie macierze:
+   - dodawanie (obie macierze muszą mieć takie same wymiary),
+   - odejmowanie (j.w.),
+   - mnożenie (druga macierz musi mieć tyle samo kolumn, ile wierszy ma pierwsza).
+
+5. macierz i wektor:
+   - mnożenie (wektor musi mieć tyle samo składowych ile kolumn ma macierz).
