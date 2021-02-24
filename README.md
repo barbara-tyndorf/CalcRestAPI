@@ -2,7 +2,11 @@
 
 Aplikacja webowa umożliwiająca obliczenia na liczbach rzeczywistych, wektorach i macierzach.
 
-<h3>Uruchomienie programu</h3>
+### Wymagania wstępne
+
+[Java 11](https://adoptopenjdk.net/)
+
+### Uruchomienie programu
 
 Aby zainstalować aplikację wywołaj następujące komendy w konsoli:
 
@@ -25,20 +29,23 @@ Następnie uruchom swoją przeglądarkę i wejdź pod adres:
 http://localhost:8080/swagger-ui/index.html
 ```
 
-<h3>Instrukcja użytkowania</h3>
+### Instrukcja użytkowania
 
 Po uruchomieniu przeglądarki i przejściu pod wskazany adres powinien ukazać się taki widok:
-![swagger1](https://user-images.githubusercontent.com/55435936/107758942-e0f16280-6d27-11eb-990b-e39b4defa456.jpg)
+
+![swagger1](108628663-827d6000-745c-11eb-860a-c0db200493ad.jpg)
 
 Kliknij strzałkę zaznaczoną czerwonym kółkiem. Ukaże Ci się lista możliwych do wykonania operacji:
 
-![swagger2](https://user-images.githubusercontent.com/55435936/107759067-1302c480-6d28-11eb-8bb5-84588e9eaae4.jpg)
+![swagger2](108628681-93c66c80-745c-11eb-906c-7f46ef2cf683.jpg)
 
-Aby wejść w wybraną zakładkę, kliknij, aby się rozwinęła. Następnie naciśnij przycisk `Try it out`.
+Kliknij na wybraną zakładkę, aby się rozwinęła. Następnie naciśnij przycisk`Try it out`.
 
+![swagger3](108628695-a0e35b80-745c-11eb-93f8-8436fb9b937e.jpg)
 
+Wywołanie `getOperations` wyświetli plik z możliwymi do wykonania operacjami.
 
-![swagger3](https://user-images.githubusercontent.com/55435936/107759201-3fb6dc00-6d28-11eb-9fad-272c4c850892.jpg)
+W przypadku wywołania `calc` masz możliwość wykonania obliczeń.
 
 Teraz w zaznaczonym poniżej białym polu możesz podać swoje wartości. Podaj dwie wartości oraz typ operacji w postaci JSON.
 
@@ -48,8 +55,8 @@ Przykładowe dane wejściowe i możliwe działania:
 
   - dodawanie `+`
   - odejmowanie `-`
-  - mnożenie `*` 
-  - dzielenie `/` 
+  - mnożenie `*`
+  - dzielenie `/`
   - potęgowanie `^`, zakres wykładnika <0,128>
   - pierwiastkowanie drugiego stopnia `#`
 
@@ -61,7 +68,12 @@ Przykładowe dane wejściowe i możliwe działania:
   }
   ```
 
-  
+  ```
+  {
+      "digitA": 9,
+      "operation": "#"
+  }
+  ```
 
 - liczba rzeczywista i wektor (maksymalnie 4-elementowy) lub macierz (maksymalnie 4x4)
 
@@ -88,8 +100,6 @@ Przykładowe dane wejściowe i możliwe działania:
     }
     ```
 
-    
-
 - dwa wektory (maksymalnie 4-elementowe, oba wektory muszą posiadać tyle samo elementów)
 
   - dodawanie `+`
@@ -103,8 +113,6 @@ Przykładowe dane wejściowe i możliwe działania:
         "operation": "+"
     }
     ```
-
-    
 
 - dwie macierze (maksymalny wymiar 4 x 4)
 
@@ -158,14 +166,16 @@ Przykładowe dane wejściowe i możliwe działania:
   }
   ```
 
-
 Aby wykonać obliczenia kliknij `Execute`.
 
-![swagger4](https://user-images.githubusercontent.com/55435936/107759525-bb188d80-6d28-11eb-929d-8f3a9f92610f.jpg)
+![swagger4](108628717-b9ec0c80-745c-11eb-8221-5b18654ab851.jpg)
 
+`getOperationsHistory` wyświetli listę ostatnich operacji.
 
+`deleteAllOperations`wyczyści listę ostatnich operacji.
 
+`getOperationsFromSpecyficFile`wyświetli listę operacji z konkretnego pliku, po podaniu jego id (najpierw wywołaj `getAvailableFiles`, aby zobaczyć listę dostępnych plików).
 
-//todo opisać resztę metod
+## Autor
 
-
+**Barbara Tyndorf** - [LinkedIn Profile](https://www.linkedin.com/in/barbara-tyndorf/)

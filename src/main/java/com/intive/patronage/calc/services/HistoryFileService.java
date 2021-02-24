@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,15 +18,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intive.patronage.calc.config.CalcConfig;
 import com.intive.patronage.calc.errors.CreateFolderException;
 import com.intive.patronage.calc.errors.FileStorageException;
+import com.intive.patronage.calc.errors.FilenameNotProvidedException;
 import com.intive.patronage.calc.errors.FilesLoadException;
 import com.intive.patronage.calc.model.CalcOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
 @Slf4j
+@ConditionalOnMissingBean(HistoryDBService.class)
 @Service
 public class HistoryFileService implements HistoryService {
 
@@ -39,8 +43,6 @@ public class HistoryFileService implements HistoryService {
 
 	private final List<CalcOperation> operationsHistory = new ArrayList<>();
 
-	private final int MAX_ENTRIES;
-
 	private ObjectMapper objectMapper;
 
 	@Value("classpath:operations/operations.txt")
@@ -50,13 +52,7 @@ public class HistoryFileService implements HistoryService {
 		this.calcConfig = calcConfig;
 		root = System.getProperty("java.io.tmpdir");
 		rootHistory = Paths.get(root + "history");
-		MAX_ENTRIES = calcConfig.getFileMaxLog();
 		objectMapper = new ObjectMapper();
-	}
-
-	@Override
-	public String send(){
-		return "HistoryFileService";
 	}
 
 	private void createDirectory() {
@@ -71,7 +67,7 @@ public class HistoryFileService implements HistoryService {
 	}
 
 	private int getLastFileNumber() {
-		List<String> files = listFiles();
+		List<String> files = getPossibleRange();
 		return files.stream()
 				.filter((name) -> name.startsWith(LOG_FILE_NAME))
 				.map((currentFile) -> {
@@ -123,7 +119,7 @@ public class HistoryFileService implements HistoryService {
 			log.error(e.getMessage(), e);
 			throw new FileStorageException();
 		}
-		if (list.size() >= 50) {
+		if (list.size() >= calcConfig.getFileMaxLog()) {
 			try {
 				int lastFileNb = getLastFileNumber();
 				int append = lastFileNb + 1;
@@ -133,10 +129,6 @@ public class HistoryFileService implements HistoryService {
 
 				Files.move(Paths.get(currentFile.getPath()), Paths.get(archive.getPath()));
 				list.clear();
-
-				FileOutputStream newFile = new FileOutputStream(getHistoryFile());
-				objectMapper.writeValue(newFile, list);
-				newFile.close();
 			}
 			catch (IOException e) {
 				log.error(e.getMessage(), e);
@@ -161,7 +153,13 @@ public class HistoryFileService implements HistoryService {
 	}
 
 	@Override
-	public List<CalcOperation> getOperationsFromRange(String filename, long start, long end) {
+	public List<CalcOperation> getOperationsFromRange(Map<String, String> params) {
+		String filename = "";
+		if (params.containsKey("filename")) {
+			filename = params.get("filename");
+		} else {
+			throw new FilenameNotProvidedException();
+		}
 		try {
 			File file = new File(rootHistory + File.separator + filename);
 			if (file.exists() || file.canRead()) {
@@ -177,7 +175,7 @@ public class HistoryFileService implements HistoryService {
 		throw new FilesLoadException();
 	}
 
-	public List<String> listFiles() {
+	public List<String> getPossibleRange() {
 		try {
 			return Files.walk(this.rootHistory, 1).filter(path -> !path.equals(this.rootHistory))
 					.map(this.rootHistory::relativize).map(path -> path.getFileName().toString())

@@ -1,11 +1,13 @@
 package com.intive.patronage.calc.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.intive.patronage.calc.model.CalcOperation;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
-//@Service
+@Service
 public interface HistoryService {
 
     void addOperation(CalcOperation calcOperation);
@@ -14,9 +16,9 @@ public interface HistoryService {
 
     List<CalcOperation> gelAllOperations();
 
-    List<CalcOperation> getOperationsFromRange(String filename, long start, long end);
+    List<CalcOperation> getOperationsFromRange(Map<String, String> params);
 
     Resource getPossibleOperationsFile();
 
-    String send();
+    List<String> getPossibleRange();
 }

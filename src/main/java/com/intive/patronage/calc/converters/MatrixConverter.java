@@ -1,12 +1,12 @@
 package com.intive.patronage.calc.converters;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
 
 @Component
 @Converter
@@ -22,11 +22,12 @@ public class MatrixConverter implements AttributeConverter<BigDecimal[][], Strin
 
     @Override
     public String convertToDatabaseColumn(BigDecimal[][] matrix) {
-        return Arrays.asList(matrix).stream().map(m -> vectorConverter.convertToDatabaseColumn(m)).collect(Collectors.joining(SEPARATOR));
+
+        return matrix == null ? null : Arrays.asList(matrix).stream().map(m -> vectorConverter.convertToDatabaseColumn(m)).collect(Collectors.joining(SEPARATOR));
     }
 
     @Override
     public BigDecimal[][] convertToEntityAttribute(String s) {
-        return Arrays.asList(s.split(SEPARATOR)).stream().map(v -> vectorConverter.convertToEntityAttribute(v)).toArray(BigDecimal[][]::new);
+        return s == null ? null : Arrays.asList(s.split(SEPARATOR)).stream().map(v -> vectorConverter.convertToEntityAttribute(v)).toArray(BigDecimal[][]::new);
     }
 }
