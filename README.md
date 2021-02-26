@@ -180,15 +180,29 @@ Następnie otrzymasz wynik obliczeń, ewentualnie komunikat, jeśli wprowadzone 
 
 `getPossibleOperationRange` w zależności od wybranej opcji zapisu danych, wyświetli:
 
-- dostępne pliki historii operacji,
-- listę id operacji możliwych do pobrania.
+- dostępne pliki historii operacji
 
-`getOperationsFromRange` wyświetli:
+  ![swagger7](109297878-ffc91c00-7832-11eb-98ec-692c8cbf4867.jpg)
 
-- listę operacji z konkretnego pliku, po podaniu jego nazwy
-- listę operacji z zakresu podanych id od (start) do (end), jeśli nie podasz wartości końcowej (end) otrzymasz listę operacji od początku zakresu (start) do ostatniej operacji.
+- listę id operacji możliwych do pobrania
 
-<!--TODO opis korzystania z Postmana-->
+  ![swagger9](109298872-84686a00-7834-11eb-8fb9-ae0f47353ae8.jpg)
+
+  
+
+`getOperationsFromRange` wyświetli w zależności do wybranej opcji zapisu danych:
+
+- listę operacji z zakresu wybranych plików (podaj nr plików, pole `end` możesz pozostawić puste, wtedy otrzymasz listę operacji od pliku wskazanego w polu `start` do ostatniej wykonanej operacji)
+
+  ![swagger8](109298248-939ae800-7833-11eb-9a23-a3da86579483.jpg)
+
+  
+
+- listę operacji z zakresu podanych id od `start` do `end`, jeśli nie podasz wartości końcowej `end` otrzymasz listę operacji od początku zakresu `start` do ostatniej operacji.
+
+  ![swagger10](109299165-f80a7700-7834-11eb-8f70-cc293d3850d8.jpg)
+
+  ![swagger11](109299489-7b2bcd00-7835-11eb-84a2-33e07ef6e8c3.jpg)
 
 ### Sterowanie zapisem historii operacji
 

@@ -2,7 +2,6 @@ package com.intive.patronage.calc.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.intive.patronage.calc.errors.IdNumberException;
@@ -51,22 +50,18 @@ public class HistoryDBService implements HistoryService {
     }
 
     @Override
-    public List<CalcOperation> getOperationsFromRange(Map<String, String> params) {
-        long start = 0;
-        long end = calcRepository.findTopByOrderByIdDesc().getId();
-        try {
-            if (params.containsKey("start")) {
-                start = Long.parseLong(params.get("start"));
-            }
-            if (params.containsKey("end")) {
-                start = Long.parseLong(params.get("end"));
-            }
-        } catch (NumberFormatException e) {
-            log.error(e.getMessage(), e);
+    public List<CalcOperation> getOperationsFromRange(Long start, Long end) {
+        if ((start < calcRepository.findTopByOrderByIdAsc().getId()
+                || start > calcRepository.findTopByOrderByIdDesc().getId())
+                || (end != null && (end < calcRepository.findTopByOrderByIdAsc().getId()
+                || end > calcRepository.findTopByOrderByIdDesc().getId()))) {
             throw new IdNumberException();
         }
+        if (end == null) {
+            end = calcRepository.findTopByOrderByIdDesc().getId();
+        }
         List<Long> idsList = new ArrayList<>();
-        for (long i = start; i <= end; i++) {
+        for (Long i = start; i <= end; i++) {
             idsList.add(i);
         }
         return calcRepository.findAllById(idsList);

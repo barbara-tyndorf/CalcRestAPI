@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -18,8 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intive.patronage.calc.config.CalcConfig;
 import com.intive.patronage.calc.errors.CreateFolderException;
 import com.intive.patronage.calc.errors.FileStorageException;
-import com.intive.patronage.calc.errors.FilenameNotProvidedException;
 import com.intive.patronage.calc.errors.FilesLoadException;
+import com.intive.patronage.calc.errors.IdNumberException;
 import com.intive.patronage.calc.model.CalcOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -153,19 +152,29 @@ public class HistoryFileService implements HistoryService {
 	}
 
 	@Override
-	public List<CalcOperation> getOperationsFromRange(Map<String, String> params) {
-		String filename = "";
-		if (params.containsKey("filename")) {
-			filename = params.get("filename");
-		} else {
-			throw new FilenameNotProvidedException();
+	public List<CalcOperation> getOperationsFromRange(Long start, Long end) {
+		Long maxRange = (long) getLastFileNumber();
+		if ((start < 0 || start > maxRange)
+				|| (end != null && (end < 0 || end > maxRange))) {
+			throw new IdNumberException();
+		}
+		if (end == null) {
+			end = maxRange;
 		}
 		try {
-			File file = new File(rootHistory + File.separator + filename);
-			if (file.exists() || file.canRead()) {
-				return objectMapper.readValue(file, new TypeReference<List<CalcOperation>>() {
+			for (Long i = start; i <= end; i++) {
+				String filename;
+				if (start == 0) {
+					filename = LOG_FILE_NAME;
+				} else {
+					filename = LOG_FILE_NAME + "." + start;
+				}
+				File file = new File(rootHistory + File.separator + filename);
+				if (file.exists() || file.canRead()) {
+					return objectMapper.readValue(file, new TypeReference<List<CalcOperation>>() {
 
-				});
+					});
+				}
 			}
 		}
 		catch (IOException e) {

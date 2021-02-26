@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Converter
 public class MatrixConverter implements AttributeConverter<BigDecimal[][], String> {
 
-    private final String SEPARATOR = "|";
+    private final String SEPARATOR = "-";
 
     private AttributeConverter<BigDecimal[], String> vectorConverter;
 
@@ -23,11 +23,18 @@ public class MatrixConverter implements AttributeConverter<BigDecimal[][], Strin
     @Override
     public String convertToDatabaseColumn(BigDecimal[][] matrix) {
 
-        return matrix == null ? null : Arrays.asList(matrix).stream().map(m -> vectorConverter.convertToDatabaseColumn(m)).collect(Collectors.joining(SEPARATOR));
+        return matrix == null ? null : Arrays.stream(matrix)
+                .map(m -> vectorConverter.convertToDatabaseColumn(m)).collect(Collectors.joining(SEPARATOR));
     }
 
     @Override
-    public BigDecimal[][] convertToEntityAttribute(String s) {
-        return s == null ? null : Arrays.asList(s.split(SEPARATOR)).stream().map(v -> vectorConverter.convertToEntityAttribute(v)).toArray(BigDecimal[][]::new);
+    public BigDecimal[][] convertToEntityAttribute(String value) {
+        if (value != null) {
+            String[] rows = value.split(SEPARATOR);
+            return Arrays.stream(rows).map(v -> vectorConverter.convertToEntityAttribute(v))
+                    .toArray(BigDecimal[][]::new);
+        } else {
+            return null;
+        }
     }
 }
