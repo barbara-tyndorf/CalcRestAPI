@@ -3,7 +3,6 @@ package com.intive.patronage.calc;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import com.intive.patronage.calc.model.CalcInput;
 import com.intive.patronage.calc.model.CalcOperation;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -67,9 +65,9 @@ public class CalcController {
         return service.gelAllOperations();
     }
 
-    @GetMapping(path = "/history/range", produces = "application/json")
-    public List<CalcOperation> getOperationsFromRange(@RequestParam Map<String, String> params) {
-        return service.getOperationsFromRange(params);
+    @GetMapping(path = "/history/range/", produces = "application/json")
+    public List<CalcOperation> getOperationsFromRange(Long start, Long end) {
+        return service.getOperationsFromRange(start, end);
     }
 
     @GetMapping("/history/archive")
