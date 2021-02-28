@@ -13,11 +13,14 @@ public interface HistoryService {
 
     void removeAll();
 
-    List<CalcOperation> gelAllOperations();
+    List<CalcOperation> getAllOperations();
 
     List<CalcOperation> getOperationsFromRange(Long start, Long end);
 
     Resource getPossibleOperationsFile();
 
     List<String> getPossibleRange();
+
+    Resource getFile(String filename);
+
 }

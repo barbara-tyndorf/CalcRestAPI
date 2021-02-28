@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,22 +63,28 @@ public class CalcController {
 
     @GetMapping("/history")
     public List<CalcOperation> getOperationsHistory() {
-        return service.gelAllOperations();
+        return service.getAllOperations();
     }
 
-    @GetMapping(path = "/history/range/", produces = "application/json")
+    @GetMapping("/history/{filename}")
+    public Resource getFile(@PathVariable String filename){
+        return service.getFile(filename);
+    }
+
+    @GetMapping(path = "/history/list_from_range/", produces = "application/json")
     public List<CalcOperation> getOperationsFromRange(Long start, Long end) {
         return service.getOperationsFromRange(start, end);
     }
 
-    @GetMapping("/history/archive")
-    public List<String> getPossibleOperationsRange() {
+    @GetMapping("/history/range")
+    public List<String> getPossibleRange() {
         return service.getPossibleRange();
     }
 
     @DeleteMapping("/history")
-    public ResponseEntity deleteAllOperations() {
+    public ResponseEntity<String> deleteAllOperations() {
+        String success = "Historia usunięta pomyślnie.";
         service.removeAll();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(success);
     }
 }

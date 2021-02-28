@@ -33,19 +33,19 @@ Po uruchomieniu przeglądarki i przejściu pod wskazany adres powinien ukazać s
 
 ![swagger1](108628663-827d6000-745c-11eb-860a-c0db200493ad.jpg)
 
-Kliknij strzałkę zaznaczoną czerwonym kółkiem. Ukaże Ci się lista możliwych do wykonania operacji:
+Kliknij strzałkę zaznaczoną czerwonym kółkiem. Ukaże Ci się lista możliwych do wywołania metod:
 
-![swagger2](108628681-93c66c80-745c-11eb-906c-7f46ef2cf683.jpg)
+![swagger2](109419304-07242d00-79cd-11eb-97ae-24b4e6e611ea.jpg)
 
 Kliknij na wybraną zakładkę, aby się rozwinęła. Następnie naciśnij przycisk `Try it out`.
 
-![swagger3](108628695-a0e35b80-745c-11eb-93f8-8436fb9b937e.jpg)
+![swagger3](109419359-58342100-79cd-11eb-9611-da1de4378583.jpg)
 
 Wywołanie `getOperations` wyświetli plik z możliwymi do wykonania operacjami.
 
 W przypadku wywołania `calc` masz możliwość wykonania obliczeń.
 
-Teraz w zaznaczonym poniżej białym polu możesz podać swoje wartości. Podaj dwie wartości oraz typ operacji w postaci JSON.
+Teraz w zaznaczonym poniżej białym polu możesz podać swoje wartości. Podaj dwie wartości A i B (w przypadku pierwiastkowania tylko A) oraz typ operacji w postaci JSON.
 
 ![swagger5](109204687-f3e34880-77a5-11eb-8a54-a02fe8f09dc4.jpg)
 
@@ -178,6 +178,8 @@ Następnie otrzymasz wynik obliczeń, ewentualnie komunikat, jeśli wprowadzone 
 
 `deleteAllOperations` wyczyści listę operacji.
 
+`getFile` wyświetli wybrany plik z historii po podaniu jego nazwy (uwaga: działa tylko przy ustawieniu zapisu do pliku, czytaj: [sterowanie zapisem historii operacji](#sterowanie-zapisem-historii-operacji))
+
 `getPossibleOperationRange` w zależności od wybranej opcji zapisu danych, wyświetli:
 
 - dostępne pliki historii operacji
@@ -242,4 +244,4 @@ Poniżej pojawi się tablica wybranych rekordów.
 
 ## Autor
 
-**Barbara Tyndorf** - [LinkedIn Profile](https://www.linkedin.com/in/barbara-tyndorf/)
+**Barbara Tyndorf** - [LinkedIn](https://www.linkedin.com/in/barbara-tyndorf/)

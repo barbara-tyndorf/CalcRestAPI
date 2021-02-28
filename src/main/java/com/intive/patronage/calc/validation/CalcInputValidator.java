@@ -2,7 +2,6 @@ package com.intive.patronage.calc.validation;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Objects;
 
 import com.intive.patronage.calc.config.CalcConfig;
 import com.intive.patronage.calc.model.CalcInput;
@@ -63,11 +62,6 @@ public class CalcInputValidator implements Validator {
             errors.reject("Podaj typ operacji do wykonania.");
             return;
         }
-        if (Objects.equals(errors.getFieldValue("operation"), "#") && (!isEmpty(errors.getFieldValue("digitB"))
-                || !isEmpty(errors.getFieldValue("vectorB")) || !isEmpty(errors.getFieldValue("matrixB")))) {
-            errors.reject("Przy pierwiastkowaniu podaj tylko wartość A.");
-            return;
-        }
         if (!isEmpty(errors.getFieldValue("digitB")) && !isEmpty(errors.getFieldValue("vectorB")) && !isEmpty(
                 errors.getFieldValue("matrixB"))) {
             errors.reject("Podaj jedną wartość B (liczbę rzeczywistą, wektor lub macierz).");
@@ -99,16 +93,21 @@ public class CalcInputValidator implements Validator {
         if (calcInput.getDigitA() != null && calcInput.getDigitB() != null && calcInput.getOperation()
                 .equals(CalcOperationType.POW)) {
             if (calcInput.getDigitB().compareTo(new BigDecimal(calcConfig.getDigitMinExpo())) < 0
-                    || calcInput.getDigitB().compareTo(new BigDecimal(calcConfig.getDigitMaxExpo())) > 0)
+                    || calcInput.getDigitB().compareTo(new BigDecimal(calcConfig.getDigitMaxExpo())) > 0) {
                 errors.reject(String.format("Wykładnik musi być z zakresu <%d,%d>", calcConfig.getDigitMinExpo(),
                         calcConfig.getDigitMaxExpo()));
+            }
         }
         if (calcInput.getDigitA() != null && calcInput.getDigitB() != null && calcInput.getOperation()
                 .equals(CalcOperationType.DIV)) {
-            if (calcInput.getDigitB().compareTo(BigDecimal.ZERO) == 0)
+            if (calcInput.getDigitB().compareTo(BigDecimal.ZERO) == 0) {
                 errors.reject("Dzielenie przez 0 jest niemożliwe, spróbuj jeszcze raz.");
+            }
         }
-
+        if (calcInput.getDigitA() != null && calcInput.getDigitB() != null && calcInput.getOperation()
+                .equals(CalcOperationType.SQRT)) {
+            errors.reject("Przy pierwiastkowaniu podaj tylko wartość A.");
+        }
         if (calcInput.getVectorA() != null && calcInput.getVectorA().length > calcConfig.getVectorMaxSize()) {
             errors.reject(String.format("Wektor A może mieć maksymalnie %d", calcConfig.getVectorMaxSize()));
         }
