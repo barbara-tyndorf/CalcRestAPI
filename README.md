@@ -214,11 +214,13 @@ Domyślnie aplikacja zapisuje historię operacji do plików w katalogu `/histori
 System.out.println(System.getProperty("java.io.tmpdir"));
 ```
 
-Aby zapisywać historię do bazy danych należy przypisać wartość `db` do `calc.history-service` w pliku:
+W przypadku zapisu do plików wartość `calc.history-service` w pliku:
 
 ```
 ~main\resources\application.properties
 ```
+
+  jest pusta. Aby zapisywać historię do bazy danych należy przypisać wartość `db`.
 
 ![props](109210222-d796da00-77ac-11eb-8a8a-21c63e5d68d0.jpg)
 

@@ -1,4 +1,4 @@
-package com.intive.patronage.calc;
+package com.intive.patronage.calc.controller;
 
 import javax.validation.Valid;
 import java.io.IOException;
