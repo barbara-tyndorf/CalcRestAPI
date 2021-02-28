@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.intive.patronage.calc.errors.FileNotAvailableException;
 import com.intive.patronage.calc.errors.IdNumberException;
+import com.intive.patronage.calc.errors.NoOperationException;
 import com.intive.patronage.calc.model.CalcOperation;
 import com.intive.patronage.calc.repository.CalcRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -45,12 +47,15 @@ public class HistoryDBService implements HistoryService {
     }
 
     @Override
-    public List<CalcOperation> gelAllOperations() {
+    public List<CalcOperation> getAllOperations() {
         return calcRepository.findAll();
     }
 
     @Override
     public List<CalcOperation> getOperationsFromRange(Long start, Long end) {
+        if (calcRepository.findAll().isEmpty()) {
+            throw new NoOperationException();
+        }
         if ((start < calcRepository.findTopByOrderByIdAsc().getId()
                 || start > calcRepository.findTopByOrderByIdDesc().getId())
                 || (end != null && (end < calcRepository.findTopByOrderByIdAsc().getId()
@@ -71,4 +76,10 @@ public class HistoryDBService implements HistoryService {
     public Resource getPossibleOperationsFile() {
         return operations;
     }
+
+    @Override
+    public Resource getFile(String filename) {
+        throw new FileNotAvailableException();
+    }
+
 }

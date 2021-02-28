@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intive.patronage.calc.config.CalcConfig;
 import com.intive.patronage.calc.errors.CreateFolderException;
+import com.intive.patronage.calc.errors.FileDoesNotExistException;
 import com.intive.patronage.calc.errors.FileStorageException;
 import com.intive.patronage.calc.errors.FilesLoadException;
 import com.intive.patronage.calc.errors.IdNumberException;
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
@@ -143,7 +146,7 @@ public class HistoryFileService implements HistoryService {
 	}
 
 	@Override
-	public List<CalcOperation> gelAllOperations() {
+	public List<CalcOperation> getAllOperations() {
 		return operationsHistory;
 	}
 
@@ -191,6 +194,27 @@ public class HistoryFileService implements HistoryService {
 					.collect(Collectors.toList());
 		}
 		catch (IOException e) {
+			log.error(e.getMessage(), e);
+			throw new FilesLoadException();
+		}
+	}
+
+	@Override
+	public Resource getFile(String filename) {
+		File file = new File(filename);
+		if (!file.exists()) {
+			throw new FileDoesNotExistException();
+		}
+		try {
+			Path path = rootHistory.resolve(filename);
+			Resource fileContent = new UrlResource(path.toUri());
+			if (fileContent.exists() || fileContent.isReadable()) {
+				return fileContent;
+			} else {
+				throw new FilesLoadException();
+			}
+		}
+		catch (MalformedURLException e) {
 			log.error(e.getMessage(), e);
 			throw new FilesLoadException();
 		}
