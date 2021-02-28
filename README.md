@@ -190,11 +190,10 @@ Następnie otrzymasz wynik obliczeń, ewentualnie komunikat, jeśli wprowadzone 
 
   ![swagger9](109298872-84686a00-7834-11eb-8fb9-ae0f47353ae8.jpg)
 
-  
 
 `getOperationsFromRange` wyświetli w zależności do wybranej opcji zapisu danych:
 
-- listę operacji z zakresu wybranych plików (podaj nr plików, pole `end` możesz pozostawić puste, wtedy otrzymasz listę operacji od pliku wskazanego w polu `start` do ostatniej wykonanej operacji)
+- listę operacji z zakresu wybranych plików. Podaj numery plików, które chcesz odczytać (w przypadku pliku bieżącego `historia_obliczeń.txt` podaj `0`). Pole `end` możesz pozostawić puste, wtedy otrzymasz listę operacji od pliku wskazanego w polu `start` do ostatniej wykonanej operacji)
 
   ![swagger8](109298248-939ae800-7833-11eb-9a23-a3da86579483.jpg)
 
@@ -241,8 +240,6 @@ Teraz możesz wyszukać potrzebne dane za pomocą zapytań SQL. W polu zaznaczon
 Poniżej pojawi się tablica wybranych rekordów.
 
 ![h2-wynik](109216887-66a7f000-77b5-11eb-8b73-295a955bc488.jpg)
-
-
 
 ## Autor
 
