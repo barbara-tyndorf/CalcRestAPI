@@ -1,4 +1,4 @@
-# intive CalcRestApi
+# CalcRestApi
 
 Aplikacja webowa umożliwiająca obliczenia na liczbach rzeczywistych, wektorach i macierzach oraz zapis wykonanych obliczeń do pliku, lub lokalnie do bazy danych H2.
 
@@ -11,8 +11,8 @@ Aplikacja webowa umożliwiająca obliczenia na liczbach rzeczywistych, wektorach
 Aby zainstalować aplikację wywołaj następujące komendy w konsoli:
 
 ```
-git clone https://github.com/barbara-tyndorf/intive_RestAPI.git
-cd intive_RestAPI
+git clone https://github.com/barbara-tyndorf/CalcRestAPI.git
+cd CalcRestAPI
 ```
 
 Uruchom aplikację za pomocą komendy:
